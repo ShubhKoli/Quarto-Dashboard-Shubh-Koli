@@ -1,0 +1,124 @@
+---
+ format:
+    html:
+        embed-resources: true
+        code-fold: true
+---
+
+
+
+# Shubh Koli  - 16796 Quarto Dashboard Unicef :
+
+Code for Data Analytics : 
+```{python}
+# Initial Code : Analytics for the dataset : 
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+df_1 = pd.read_csv("unicef_indicator_1.csv")
+df_2 = pd.read_csv("unicef_indicator_2.csv")
+df_meta = pd.read_csv("unicef_metadata.csv")
+```
+
+
+```{python}
+sns.lineplot(data=df_1 , x ='time_period' , y='obs_value' )
+plt.xlabel("Time Period - From 1950 to 2020")
+plt.ylabel("Obs Value  - Old Age Dependency Value")
+plt.show()
+```
+
+
+```{python}
+
+sns.lineplot(data=df_2[df_2['indicator'].str.contains("low birth weight", case=False)], x='time_period', y='obs_value', legend=False)
+plt.title("Prevalence of Low Birth Weight Among Newborns")
+plt.xlabel("Year")
+plt.ylabel("Percentage (%)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+```
+
+
+```{python}
+
+sns.lineplot(data=df_1[df_1['indicator'] == 'Old age dependency ratio'], x='time_period', y='obs_value', legend=False)
+plt.title("Old Age Dependency Ratio Over Time")
+plt.xlabel("Year")
+plt.ylabel("Dependency Ratio (%)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+```
+
+
+
+```{python}
+
+sns.lineplot(data=df_2[df_2['indicator'].str.contains("low birth weight", case=False)], x='time_period', y='obs_value',legend=False)
+plt.title("Prevalence of Low Birth Weight Among Newborns")
+plt.xlabel("Year")
+plt.ylabel("Percentage (%)")
+plt.grid(True)
+plt.tight_layout()
+plt.show()
+
+```
+
+
+
+
+
+
+```{python}
+meta_clean = df_meta.dropna(subset=["GDP per capita (constant 2015 US$)", "Life expectancy at birth, total (years)"])
+plt.figure(figsize=(10,6))
+sns.scatterplot(data=meta_clean, x="GDP per capita (constant 2015 US$)", y="Life expectancy at birth, total (years)", hue="country", legend=False)
+plt.title("GDP vs Life Expectancy")
+plt.xlabel("GDP per Capita")
+plt.ylabel("Life Expectancy (Years)")
+plt.tight_layout()
+plt.show()
+
+```
+
+
+
+
+
+````{python}
+
+latest_year_df1 = df_1[df_1['time_period'] == df_1['time_period'].max()]
+top10_age_dep = latest_year_df1[latest_year_df1['indicator'] == 'Old age dependency ratio'].sort_values(by='obs_value', ascending=False).head(10)
+
+plt.figure(figsize=(10,6))
+sns.barplot(data=top10_age_dep, x='obs_value', y='country')
+plt.title("Top 10 Countries by Old Age Dependency Ratio")
+plt.xlabel("Dependency Ratio (%)")
+plt.ylabel("Country")
+plt.tight_layout()
+plt.show()
+
+````
+
+
+```{python}
+# Final Comments as per the dashbaord : 
+observations  = [
+
+    "1. The dashboard shows rising old-age dependency, signaling greater economic pressures over time.",
+    "2. Low birth weight trends reveal persistent global health vulnerabilities among newborns. ",
+    "3. The combined graphs highlight the urgent need for integrated demographic and health policies. "
+
+
+]
+
+for line in observations:
+    print(line)
+
+```
+
